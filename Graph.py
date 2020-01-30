@@ -4,8 +4,6 @@ import pickle
 
 
 class Graph(object):
-    """description of class"""
-
     def __init__(self, n_nodes=0):
         # Adjacency matrix full of zeros
         self.graph = np.zeros((n_nodes, n_nodes))
@@ -31,8 +29,8 @@ class Graph(object):
             for v in range(self.size):
                 if u != v:
                     prob = np.random.uniform(0, 1)
-                    if prob > threshold:
-                        self.graph[u, v] = int(np.random.uniform(1, 20))
+                    if prob > threshold:    # if prob is more that threshold add an edge. ie: threshold = 0.25 => prob to add an edge 75%
+                        self.graph[u, v] = int(np.random.uniform(1, 100))
                         if ((u, v) not in self.edges or (v, u) not in self.edges):
                             self.edges.update({(u, v): self.graph[u, v]})
 

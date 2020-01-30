@@ -9,8 +9,14 @@ import os
 
 
 def main():
-	experiment.evaluate_experiment(1000)
-	# graph = Graph.Graph()
+	experiment.start_experiment()
+	# experiment.evaluate_experiment(1000)
+	# graph = Graph.Graph(1000)
+	# graph.random_weighted_graph(0.9)
+	# start = time.perf_counter()
+	# kruskal.MST_Kruskal(graph)
+	# end = time.perf_counter()
+	# print(end - start)
 	# file = open('db/graph_50_prob_0.5.txt', 'rb')
 	# graph = pickle.load(file)
 	# print(graph)
@@ -33,8 +39,6 @@ def main():
 	# print ("MST: ", MST)
 	# experiment.start_experiment()
 
-
-	
 
 
 main()
