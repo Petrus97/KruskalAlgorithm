@@ -8,9 +8,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def evaluate_experiment(probabilities, dim):
-    df = pd.DataFrame(columns= ['Probabilities', 'MST_time'])
-    df['Probabilities'] = probabilities
+    df = pd.DataFrame(columns= ['Probabilities', 'MST_time', 'Path_cost'])
+    p = []
+    for prob in probabilities:
+        p.append(str(100 - prob*100) + "%")
+    df['Probabilities'] = p
     graph = Graph.Graph()
+    path_cost = []
     m_elapsed = []
     elapsed = []
     file_list = []
@@ -21,18 +25,19 @@ def evaluate_experiment(probabilities, dim):
     for files in file_list:
         for i in range(1, 11):
             name = 'db/' + files
-            print(name)
             file = open(name, 'rb')
             graph = pickle.load(file)  # load file and calculate MST
             file.close()
             start = time.perf_counter()
-            MST_Kruskal.MST_Kruskal(graph)
+            weight = MST_Kruskal.MST_Kruskal(graph)
             end = time.perf_counter()
             elapsed.append(end - start)
         m_elapsed.append(sum(elapsed)/10)
+        path_cost.append(weight) # don't calculate the average because is always the same
     df['MST_time'] = m_elapsed
+    df['Path_cost'] = path_cost
     print(df)
-    plt.xlabel("Probability")
+    plt.xlabel("Probability exists an edge between two nodes")
     plt.ylabel("Time to find MST")
     plt.plot(df['Probabilities'], df['MST_time'], marker="o")
     plt.title("MST benchmark on graph with " + str(dim) + " nodes")
