@@ -78,12 +78,9 @@ class Graph(object):
                         self.edges.update({(u, v): self.graph[u][v]})
 
     def print_graph(self):
-        for array in self.graph:
-            print(array)
+        # for array in self.graph:
+        #     print(array)
         print(self.graph)
-
-    def sort_by_weight(self):
-        self.edges = sorted(self.edges.values())
 
     def load_graph(self, file):
         self.graph = pickle.load(file)
