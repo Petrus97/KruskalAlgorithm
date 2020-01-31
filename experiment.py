@@ -71,7 +71,7 @@ def start_experiment():
     except FileExistsError:
         print("Directory already exist")
         pass
-    probabilities = [0.25, 0.5, 0.75, 0.85, 0.9] # list of probabilities
+    probabilities = [0.25, 0.5, 0.75, 0.85, 0.9] # list of probability threshold
     dimensions = [10, 50, 100, 500, 1000]
     for prob in probabilities:
         generate_random_graph(prob, dimensions)

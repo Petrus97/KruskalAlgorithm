@@ -16,5 +16,3 @@ def MST_Kruskal(graph):
 			path_step += 1
 			union_find.union(edge[0][0], edge[0][1])
 	return path_cost
-	# print("MST found in ", path_step, "step. Total weight: ", path_cost)
-	# return A

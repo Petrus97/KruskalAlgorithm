@@ -13,7 +13,7 @@ class Graph(object):
         for i in range(n_nodes):
             self.nodes.append(i)
 
-    def random_graph(self):  # now should work...
+    def random_graph(self):  
         for u in range(self.size):
             for v in range(self.size):
                 if u != v:
