@@ -38,7 +38,7 @@ class Graph(object):
         for key in self.edges:
             print(key, self.edges[key])
 
-    def cormen_graph(self):  # write to check if works
+    def cormen_graph(self):  # write to check if union-find works
         self.graph = [
             [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 1, 1, 0, 0, 0, 0, 0, 0],
@@ -58,7 +58,7 @@ class Graph(object):
                     if ((u, v) not in self.edges or (v, u) not in self.edges):
                         self.edges.update({(u, v): 1})
 
-    def cormen_graph_2(self):
+    def cormen_graph_2(self): # write to check if mst works
         self.graph = [
             [0, 4, 0, 0, 0, 0, 0, 8, 0],
             [4, 0, 8, 0, 0, 0, 0, 11, 0],

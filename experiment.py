@@ -11,7 +11,7 @@ def evaluate_experiment(probabilities, dim):
     df = pd.DataFrame(columns= ['Probabilities', 'MST_time', 'Path_cost'])
     p = []
     for prob in probabilities:
-        p.append(str(100 - prob*100) + "%")
+        p.append(str(prob*100) + "%")
     df['Probabilities'] = p
     graph = Graph.Graph()
     path_cost = []
@@ -47,13 +47,14 @@ def evaluate_experiment(probabilities, dim):
         pass
     plt.savefig('figures/' + file_name + '.png')
     plt.clf()
+    df.to_latex("results/" + file_name + ".tex")
 
 
 # this function generate random graphs, takes in input probability 
 def generate_random_graph(prob, dimensions):
     n_nodes = dimensions
     for node in n_nodes:
-        file_name = "db/graph_" + str(node) + "_prob_" + str(prob) + ".txt"
+        file_name = "db/graph_" + str(node) + "_prob_" + str(prob) + ".pickle"
         if os.path.isfile(file_name): # if exist don't create new files
             continue
         else:
@@ -72,7 +73,7 @@ def start_experiment():
         print("Directory already exist")
         pass
     probabilities = [0.25, 0.5, 0.75, 0.85, 0.9] # list of probability threshold
-    dimensions = [10, 50, 100, 500, 1000]
+    dimensions = [10, 50, 100, 500, 1000, 5000]
     for prob in probabilities:
         generate_random_graph(prob, dimensions)
     for dim in dimensions:
