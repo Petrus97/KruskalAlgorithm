@@ -13,7 +13,7 @@ def evaluate_experiment(probabilities, dim):
     for prob in probabilities:
         p.append(str(prob*100) + "%")
     df['Probabilities'] = p
-    graph = Graph.Graph()
+    del p
     path_cost = []
     m_elapsed = []
     elapsed = []
@@ -24,6 +24,7 @@ def evaluate_experiment(probabilities, dim):
             file_list.append(files)
     for files in file_list:
         for i in range(1, 11):
+            print("evauating " + files + " " + str(i))
             name = 'db/' + files
             file = open(name, 'rb')
             graph = pickle.load(file)  # load file and calculate MST
@@ -32,6 +33,7 @@ def evaluate_experiment(probabilities, dim):
             weight = MST_Kruskal.MST_Kruskal(graph)
             end = time.perf_counter()
             elapsed.append(end - start)
+            print(str(end - start) + " " + str(i))
         m_elapsed.append(sum(elapsed)/10)
         path_cost.append(weight) # don't calculate the average because is always the same
     df['MST_time'] = m_elapsed
@@ -51,18 +53,19 @@ def evaluate_experiment(probabilities, dim):
 
 
 # this function generate random graphs, takes in input probability 
-def generate_random_graph(prob, dimensions):
-    n_nodes = dimensions
-    for node in n_nodes:
-        file_name = "db/graph_" + str(node) + "_prob_" + str(prob) + ".pickle"
-        if os.path.isfile(file_name): # if exist don't create new files
-            continue
-        else:
-            graph = Graph.Graph(node)
-            graph.random_weighted_graph(prob)
-            file = open(file_name, 'wb')
-            pickle.dump(graph, file)
-            file.close()
+def generate_random_graph(probabilities, dimensions):
+    for prob in probabilities:
+        for n_nodes in dimensions:
+            file_name = "db/graph_" + str(n_nodes) + "_prob_" + str(prob) + ".pickle"
+            if os.path.isfile(file_name): # if exist don't create new files
+                continue
+            else:
+                graph = Graph.Graph(n_nodes)
+                graph.random_weighted_graph(prob)
+                file = open(file_name, 'wb')
+                pickle.dump(graph, file)
+                file.close()
+                del graph
     
 
 
@@ -73,9 +76,8 @@ def start_experiment():
         print("Directory already exist")
         pass
     probabilities = [0.25, 0.5, 0.75, 0.85, 0.9] # list of probability threshold
-    dimensions = [10, 50, 100, 500, 1000, 5000]
-    for prob in probabilities:
-        generate_random_graph(prob, dimensions)
+    dimensions = [2500]#[10, 50, 100, 500, 1000, 5000]
+    generate_random_graph(probabilities, dimensions)
     for dim in dimensions:
         evaluate_experiment(probabilities, dim)
     

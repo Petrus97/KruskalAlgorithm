@@ -29,8 +29,8 @@ class Graph(object):
             for v in range(self.size):
                 if u != v:
                     prob = np.random.uniform(0, 1)
-                    if prob > threshold:    # if prob is more that threshold add an edge. ie: threshold = 0.25 => prob to add an edge 75%
-                        self.graph[u, v] = int(np.random.uniform(1, 100))
+                    if prob < threshold:    # if prob is less then threshold add an edge. ie: threshold = 0.25 => prob to add an edge 25%
+                        self.graph[u, v] = int(np.random.uniform(1, 10000))
                         if ((u, v) not in self.edges or (v, u) not in self.edges):
                             self.edges.update({(u, v): self.graph[u, v]})
 
@@ -84,3 +84,13 @@ class Graph(object):
 
     def load_graph(self, file):
         self.graph = pickle.load(file)
+
+    def make_random_weighted(self, threshold):
+        for u in range(self.size):
+            for v in range(self.size):
+                if u != v:
+                    prob = np.random.uniform(0, 1)
+                    if prob < threshold:    # if prob is more that threshold add an edge. ie: threshold = 0.25 => prob to add an edge 75%
+                        self.graph[u, v] = int(np.random.uniform(1, 10000))
+                        if ((u, v) not in self.edges or (v, u) not in self.edges):
+                            self.edges.update({(u, v): self.graph[u, v]})
