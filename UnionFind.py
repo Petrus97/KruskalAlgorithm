@@ -9,6 +9,9 @@ class UnionFind(object):
 		for edge in graph.edges:
 			if self.find_set(edge[0]) != self.find_set(edge[1]):
 				self.union(self.find_set(edge[0]), self.find_set(edge[1]))
+	
+	def get_number_of_cc(self):
+		return len(self.set)
 
 	def make_set(self, node): # crea un nuovo insieme Si
 		s = set([node])  # insiemi disgiunti nodi
@@ -32,7 +35,7 @@ class UnionFind(object):
 				
 
 	def print_set(self):
-		print(self.set)
+		print(sorted(self.set, key=len, reverse=True))
 
 	def print_representative(self):
 		print(self.representative)
