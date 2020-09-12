@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import pickle
+import itertools
 
 
 class Graph(object):
@@ -9,30 +10,31 @@ class Graph(object):
         self.graph = np.zeros((n_nodes, n_nodes))
         self.size = n_nodes
         self.edges = {}  # dictionary  "edge" : "weight"
-        self.nodes = []
-        for i in range(n_nodes):
-            self.nodes.append(i)
+        for e in itertools.combinations(range(n_nodes), 2): # create all edges
+            self.edges[e] = 1
+        self.nodes = [i for i in range(n_nodes)]
 
-    def random_graph(self):  
-        for u in range(self.size):
-            for v in range(self.size):
-                if u != v:
-                    edge = random.uniform(0, 1)
-                    if edge > 0.85:
-                        self.graph[u, v] = 1
-                        self.graph[v, u] = 1
-                        if ((u, v) not in self.edges or (v, u) not in self.edges):
-                            self.edges.update({(u, v): self.graph[u, v]})
+    def random_graph(self, threshold):
+        for edge in list(self.edges):
+            prob = np.random.uniform(0, 1)
+            if prob < threshold: # if prob is less then threshold add an edge. ie: threshold = 0.25 => prob to add an edge 25%
+                u, v = edge
+                self.graph[u, v] = 1
+                self.graph[v, u] = 1
+            else:
+                self.edges.pop(edge)
 
     def random_weighted_graph(self, threshold):
-        for u in range(self.size):
-            for v in range(self.size):
-                if u != v:
-                    prob = np.random.uniform(0, 1)
-                    if prob > threshold:    # if prob is more that threshold add an edge. ie: threshold = 0.25 => prob to add an edge 75%
-                        self.graph[u, v] = int(np.random.uniform(1, 100))
-                        if ((u, v) not in self.edges or (v, u) not in self.edges):
-                            self.edges.update({(u, v): self.graph[u, v]})
+        for edge in list(self.edges):
+            prob = np.random.uniform(0, 1)
+            if prob < threshold: # if prob is less then threshold add an edge. ie: threshold = 0.25 => prob to add an edge 25%
+                u, v = edge
+                weight = int(np.random.uniform(1, 10000))
+                self.graph[u, v] = weight
+                self.graph[v, u] = weight
+                self.edges[edge] = weight
+            else:
+                self.edges.pop(edge)
 
     def show_edges(self):
         for key in self.edges:
