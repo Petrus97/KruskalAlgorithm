@@ -109,7 +109,7 @@ def start_experiment():
         print("Directory already exist")
         pass
     # list of probability threshold
-    probabilities = [0.25, 0.5, 0.75, 0.85, 0.9]
+    probabilities = [0.1, 0.25, 0.5, 0.75, 0.85, 0.9]
     dimensions = [10, 50, 100, 500, 1000, 2500]
     generate_random_graph(probabilities, dimensions)
     for dim in dimensions:
